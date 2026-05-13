@@ -1,0 +1,42 @@
+name: evesta_app
+description: A new Flutter project.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  image_picker:
+  permission_handler:
+  shared_preferences:
+  fluttertoast:
+  url_launcher:
+  google_generative_ai: ^0.4.6
+  intl:
+  http:
+  geolocator:
+  google_maps_flutter:
+  flutter_map:
+  latlong2:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/evesta_logo_v2.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/evesta_logo_v2.png
