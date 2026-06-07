@@ -1,0 +1,74 @@
+{% extends 'adminn/admin_index.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Reply</title>
+
+    <style>
+        .reply-container {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reply-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .reply-container label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .reply-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .reply-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reply-container button:hover {
+            background-color: #084298;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reply-container">
+        <h2>Send Reply</h2>
+
+        <form method="post" action="/myapp/admin_reply_post/">
+            {% csrf_token %}
+
+            <label for="reply">Reply</label>
+            <input type="text" name="reply" id="reply" placeholder="Enter your reply" required>
+
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

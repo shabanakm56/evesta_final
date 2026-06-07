@@ -1,0 +1,131 @@
+{% extends 'coordinator/coordinator_index.html' %}
+{% block body %}
+
+<style>
+    /* SCROLL FIX */
+    .scroll-page {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 20px 20px 120px;
+        background-color: #f4f6f9;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 98%;
+        margin: auto;
+        border-collapse: collapse;
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #2c3e50;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    a.action-btn {
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        color: white;
+        display: inline-block;
+        margin: 3px 0;
+        font-size: 13px;
+    }
+
+    .accept {
+        background-color: #28a745;
+    }
+
+    .reject {
+        background-color: #dc3545;
+    }
+
+    a.action-btn:hover {
+        opacity: 0.85;
+    }
+</style>
+
+<div class="scroll-page">
+
+    <h1>Verify Events</h1>
+
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Event Name</th>
+            <th>Location</th>
+            <th>Details</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Link</th>
+            <th>Type</th>
+            <th>Track</th>
+            <th>Action</th>
+        </tr>
+
+         {% for i in data %}
+        <tr>
+            <td>
+                {% if i.Image %}
+                    <img src="{{ i.Image.url }}" width="80" height="60">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+
+            <td>{{ i.EventName }}</td>
+            <td>{{ i.Location }}</td>
+            <td>{{ i.Details }}</td>
+            <td>{{ i.Date }}</td>
+            <td>{{ i.Time }}</td>
+           <td><a href="{{ i.Link }}" target="_blank" class="feedback">Open</a></td>
+            <td>{{ i.Type }}</td>
+             <td>
+    <a href="https://www.google.com/maps?q={{ i.Latitude }},{{ i.Longitude }}"
+       target="_blank"
+       class="track">
+        Track
+    </a>
+</td>
+
+           <td>
+                {% if i.Status == "pending" %}
+              <a href="/myapp/coord_accept_event/{{ i.id }}" class="action-btn accept">Accept</a><br>
+                <a href="/myapp/coord_reject_event/{{ i.id }}" class="action-btn reject">Reject</a>
+                    {% elif i.Status == 'rejected' %}
+                                  <a href="/myapp/coord_accept_event/{{ i.id }}" class="action-btn accept">Accept</a><br>
+
+                    {% elif i.Status == 'accepted' %}
+                                    <a href="/myapp/coord_reject_event/{{ i.id }}" class="action-btn reject">Reject</a>
+
+              {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}
+
+
+

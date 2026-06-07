@@ -1,0 +1,138 @@
+{% extends 'adminn/admin_index.html' %}
+{% block body %}
+
+<style>
+    /* SCROLL FIX */
+    .scroll-page {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 20px 0 120px;
+        background-color: #f4f6f9;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin: 20px 0;
+    }
+
+    .form-container {
+        width: 500px;
+        max-width: 95%;
+        margin: auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 10px;
+        vertical-align: middle;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div class="scroll-page">
+
+    <h1>Update Coordinator</h1>
+
+    <div class="form-container">
+        <form method="post" action="/myapp/admin_edit_cord_post/" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Name :</td>
+                    <td>
+                        <input type="text" name="name" value="{{ data.Name }}" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Gender :</td>
+                    <td>
+                        <input type="radio" name="Gender" value="Male"
+                               {% if data.Gender == "Male" %}checked{% endif %}> Male
+                        <input type="radio" name="Gender" value="Female"
+                               {% if data.Gender == "Female" %}checked{% endif %}> Female
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DOB :</td>
+                    <td>
+                        <input type="date" name="dob"
+                               value="{{ data.DOB|date:'Y-m-d' }}" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Phone :</td>
+                    <td>
+                        <input type="number" name="phone"
+                               value="{{ data.Phoneno }}" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email :</td>
+                    <td>
+                        <input type="email" name="email"
+                               value="{{ data.Email }}" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Photo :</td>
+                    <td>
+                        <input type="file" name="photo">
+                        <img src="{{ data.Photo.url }}" class="img-thumbnail mb-2" width="150" height="150">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Save Changes" class="submit-btn">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

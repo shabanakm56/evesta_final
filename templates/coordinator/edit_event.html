@@ -1,0 +1,111 @@
+{% extends 'coordinator/coordinator_index.html' %}
+{% block body %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<style>
+    #map { height: 400px; margin-bottom: 20px; }
+    .scroll-container { max-height: 85vh; overflow-y: auto; }
+</style>
+
+<div class="container mt-4">
+    <div class="scroll-container">
+        <div class="card shadow p-4">
+            <h4 class="text-center mb-4">Edit Event</h4>
+
+            <form action="/myapp/cordinator_editevent_post/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ data.id }}">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Event Name</label>
+                        <input type="text" class="form-control" name="textfield"
+                               value="{{ data.EventName }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Location</label>
+                        <input type="text" class="form-control" name="textfield1"
+                               value="{{ data.Location }}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Details</label>
+                        <input type="text" class="form-control" name="textfield2"
+                               value="{{ data.Details }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Time</label>
+                        <input type="time" class="form-control" name="textfield3"
+                               value="{{ data.Time|time:'H:i' }}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Link</label>
+                        <input type="text" class="form-control" name="textfield4"
+                               value="{{ data.Link }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Type</label>
+                        <input type="text" class="form-control" name="textfield5"
+                               value="{{ data.Type }}" required>
+                    </div>
+                </div>
+
+                <!-- IMAGE FIX -->
+                <div class="mb-3">
+                    <label> Image</label><br>
+                      <input type="file" name="Image">
+                        <img src="{{ data.Image.url }}" class="img-thumbnail mb-2" width="150" height="150">
+                </div>
+
+                <div class="mb-3">
+                    <label>Select Location</label>
+                    <div id="map"></div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Latitude</label>
+                        <input type="text" class="form-control" id="latitude"
+                               name="latitude" value="{{ data.Latitude }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Longitude</label>
+                        <input type="text" class="form-control" id="longitude"
+                               name="longitude" value="{{ data.Longitude }}" readonly>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    var lat = {{ data.Latitude }};
+    var lng = {{ data.Longitude }};
+
+    var map = L.map('map').setView([lat, lng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var marker = L.marker([lat, lng]).addTo(map);
+
+    map.on('click', function(e) {
+        lat = e.latlng.lat;
+        lng = e.latlng.lng;
+        marker.setLatLng([lat, lng]);
+        document.getElementById('latitude').value = lat.toFixed(6);
+        document.getElementById('longitude').value = lng.toFixed(6);
+    });
+</script>
+
+{% endblock %}
